@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 public class FieldScript : MonoBehaviour
 {
@@ -19,6 +20,10 @@ public class FieldScript : MonoBehaviour
     [SerializeField] GameObject flag_prefab;
     [SerializeField] GameObject bomb_prefab;
 
+    [SerializeField] TextMeshProUGUI test;//test
+
+    int test_coin = 0;
+
     int[,] cells;
     GameObject[,] new_cells;
 
@@ -26,6 +31,7 @@ public class FieldScript : MonoBehaviour
     bool[,] is_opened;
 
     bool[,] is_flag;
+    bool[,] is_bomb; //test
     GameObject[,] flags;
 
     void Start()
@@ -35,6 +41,7 @@ public class FieldScript : MonoBehaviour
         dark_cells = new GameObject[width, height];
         is_opened = new bool[width, height];
         is_flag = new bool[width, height];
+        is_bomb = new bool[width+1, height+1];//test
         flags = new GameObject[width, height];
 
         for (int i = 0; i < width; i++)
@@ -48,15 +55,15 @@ public class FieldScript : MonoBehaviour
         int current_bomb_count = bomb_count;
         while (current_bomb_count > 0)
         {
-            int random_i = Random.Range(0, width);
-            int random_j = Random.Range(0, height);
+            int random_i = UnityEngine.Random.Range(0, width);
+            int random_j = UnityEngine.Random.Range(0, height);
 
             if (cells[random_i, random_j] >= 0)
             {
                 cells[random_i, random_j] = -INF;
 
                 PlaceNewBomb(random_i, random_j);
-
+                is_bomb[random_i, random_j] = true; //test
                 current_bomb_count--;
             }
         }
@@ -179,9 +186,21 @@ public class FieldScript : MonoBehaviour
     void PlaceFlag(int i, int j)
     {
         is_flag[i, j] = !is_flag[i, j];
-
-        if (is_flag[i, j]) flags[i, j].SetActive(true);
-        else flags[i, j].SetActive(false);
+        if (is_flag[i, j]) { 
+            flags[i, j].SetActive(true);
+      
+            if (is_bomb[i, j]) { //test
+                test_coin += 1; 
+                test.text = test_coin.ToString();
+            } 
+        }
+        else { 
+            flags[i, j].SetActive(false);
+            if (is_bomb[i, j]){//test
+                test_coin -= 1;
+                test.text = test_coin.ToString();
+            } 
+        }
     }
 
     private void PlaceNewBomb(int i, int j)
