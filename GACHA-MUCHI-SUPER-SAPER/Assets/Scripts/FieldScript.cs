@@ -129,6 +129,9 @@ public class FieldScript : MonoBehaviour
         int i = (int)((pointer.position.x - top) / panel_width * width);
         int j = (int)((pointer.position.y - left) / panel_height * height);
 
+        //int i = (int)(pointer.position.x / Screen.width * width);
+        //int j = (int)(pointer.position.y / Screen.height * height);
+
         if (Input.GetMouseButtonDown(0)) OpenCell(i, j);
         else if (is_opened[i, j] == false) PlaceFlag(i, j);
     }
