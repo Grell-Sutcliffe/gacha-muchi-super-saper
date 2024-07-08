@@ -14,6 +14,26 @@ public class ButtonsScripts : MonoBehaviour
         controller = saper_controller.GetComponent<SaperController>();
     }
 
+    public void BuyLusi()
+    {
+        controller.BuyLusi();
+    }
+
+    public void BuyGeremi()
+    {
+        controller.BuyGeremi();
+    }
+
+    public void BuyMakito()
+    {
+        controller.BuyMakito();
+    }
+
+    public void BuyStepan()
+    {
+        controller.BuyStepan();
+    }
+
     public void SelectCharacterIvan()
     {
         controller.SelectActiveCharacterIvan();

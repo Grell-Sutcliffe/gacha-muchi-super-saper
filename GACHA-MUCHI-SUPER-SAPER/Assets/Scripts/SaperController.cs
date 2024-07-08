@@ -59,6 +59,10 @@ public class SaperController : MonoBehaviour
     [SerializeField] GameObject wish_panel;
 
     [SerializeField] Text cost_of_wish_shop;
+    [SerializeField] Text cost_of_Lusi_shop;
+    [SerializeField] Text cost_of_Geremi_shop;
+    [SerializeField] Text cost_of_Makito_shop;
+    [SerializeField] Text cost_of_Stepan_shop;
 
     [SerializeField] Text count_of_coins_menu;
     [SerializeField] Text count_of_coins_banner;
@@ -81,6 +85,7 @@ public class SaperController : MonoBehaviour
     int wish;
     int shard;
     public int cost_of_wish;
+    public int cost_of_character;
 
     Character active_character;
 
@@ -112,6 +117,13 @@ public class SaperController : MonoBehaviour
         wish = 0;
         shard = 0;
         cost_of_wish = 10;
+        cost_of_character = 20;
+
+        cost_of_wish_shop.text = cost_of_wish.ToString();
+        cost_of_Lusi_shop.text= cost_of_character.ToString();
+        cost_of_Geremi_shop.text = cost_of_character.ToString();
+        cost_of_Makito_shop.text = cost_of_character.ToString();
+        cost_of_Stepan_shop.text = cost_of_character.ToString();
 
         count_of_coins_menu.text = "0";
         count_of_coins_shop.text = "0";
@@ -155,6 +167,41 @@ public class SaperController : MonoBehaviour
         }
     }
 
+    public void BuyLusi()
+    {
+        BuyCharacter(1);
+    }
+
+    public void BuyGeremi()
+    {
+        BuyCharacter(2);
+    }
+
+    public void BuyMakito()
+    {
+        BuyCharacter(3);
+    }
+
+    public void BuyStepan()
+    {
+        BuyCharacter(4);
+    }
+
+    public void BuyCharacter(int number)
+    {
+        if (shard - cost_of_character >= 0)
+        {
+            shard -= cost_of_character;
+            EditShardCount();
+
+            GetCharacter(number);
+        }
+        else
+        {
+            ShowNotEnoughPaymentPanel();
+        }
+    }
+
     public void Wish()
     {
         if (wish > 0)
@@ -175,10 +222,7 @@ public class SaperController : MonoBehaviour
                 name.text = characters[character_1_4].name;
                 ability.text = "Ability: " + characters[character_1_4].ability;
 
-                Character new_character = characters[character_1_4];
-                new_character.is_obtained = true;
-                new_character.cross.gameObject.SetActive(false);
-                characters[character_1_4] = new_character;
+                GetCharacter(character_1_4);
             }
             else
             {
@@ -202,6 +246,14 @@ public class SaperController : MonoBehaviour
         {
             not_enough_wish.SetActive(true);
         }
+    }
+
+    private void GetCharacter(int number)
+    {
+        Character new_character = characters[number];
+        new_character.is_obtained = true;
+        new_character.cross.gameObject.SetActive(false);
+        characters[number] = new_character;
     }
 
     public void SelectActiveCharacterIvan()
