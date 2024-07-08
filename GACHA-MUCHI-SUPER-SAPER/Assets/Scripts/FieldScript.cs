@@ -37,6 +37,7 @@ public class FieldScript : MonoBehaviour
 
     bool is_first_move;
     int bomb_found;
+    int flag_placed;
     int prize;
 
     private void Start()
@@ -54,6 +55,7 @@ public class FieldScript : MonoBehaviour
         end_of_the_game.SetActive(false);
         is_first_move = true;
         bomb_found = 0;
+        flag_placed = 0;
         prize = 0;
 
         cells = new int[width, height];
@@ -228,16 +230,20 @@ public class FieldScript : MonoBehaviour
         {
             flags[i, j].SetActive(true);
 
+            flag_placed++;
+
             if (cells[i, j] < 0) bomb_found++;
         }
         else
         {
             flags[i, j].SetActive(false);
 
+            flag_placed--;
+
             if (cells[i, j] < 0) bomb_found--;
         }
 
-        if (bomb_found == bomb_count)
+        if ((bomb_found == bomb_count) && (flag_placed == bomb_count))
         {
             prize = bomb_count;
             end_of_the_game.SetActive(true);

@@ -13,6 +13,26 @@ public class ButtonsScripts : MonoBehaviour
         controller = saper_controller.GetComponent<SaperController>();
     }
 
+    public void CloseNotEnoughWish()
+    {
+        controller.CloseNotEnoughWish();
+    }
+
+    public void BuyWish()
+    {
+        controller.BuyWish();
+    }
+
+    public void HideNotEnoughPaymentPanel()
+    {
+        controller.HideNotEnoughPaymentPanel();
+    }
+
+    public void CloseWishPanel()
+    {
+        controller.CloseWishPanel();
+    }
+
     public void MenuToShop()
     {
         controller.MenuToShop();

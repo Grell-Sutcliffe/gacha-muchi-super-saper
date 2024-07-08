@@ -1,20 +1,75 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.VirtualTexturing;
 using UnityEngine.UI;
+using System;
+using UnityEditor.Playables;
 
 public class SaperController : MonoBehaviour
 {
+    [System.Serializable]
+    public struct Character
+    {
+        public string name;
+        public string ability;
+        public bool is_obtained;
+        public bool is_selected;
+        public Sprite avatar;
+
+        public Character(string _name, string _ability, bool _is_obtained, bool _is_selected, Sprite _avatar)
+        {
+            this.name = _name;
+            this.ability = _ability;
+            this.is_obtained = _is_obtained;
+            this.is_selected = _is_selected;
+            this.avatar = _avatar;
+        }
+    }
+
+    [SerializeField] Image avatar;
+    [SerializeField] Text name;
+    [SerializeField] Text ability;
+
+    [SerializeField] Sprite shard_sprite;
+    [SerializeField] Sprite Ivan_sprite;
+    [SerializeField] Sprite Lusi_sprite;
+    [SerializeField] Sprite Geremi_sprite;
+    [SerializeField] Sprite Makito_sprite;
+    [SerializeField] Sprite Stepan_sprite;
+
     [SerializeField] GameObject game_panel;
     [SerializeField] GameObject main_menu_panel;
     [SerializeField] GameObject shop_panel;
     [SerializeField] GameObject profile_panel;
     [SerializeField] GameObject confirming_panel;
     [SerializeField] GameObject shop_shop_panel;
+    [SerializeField] GameObject not_enough_panel;
+    [SerializeField] GameObject not_enough_wish;
+    [SerializeField] GameObject wish_panel;
 
-    [SerializeField] Text count_of_coins;
+    [SerializeField] Text cost_of_wish_shop;
+
+    [SerializeField] Text count_of_coins_menu;
+    [SerializeField] Text count_of_coins_banner;
+    [SerializeField] Text count_of_coins_shop;
+    [SerializeField] Text count_of_wish_banner;
+    [SerializeField] Text count_of_wish_shop;
+    [SerializeField] Text count_of_shard_banner;
+    [SerializeField] Text count_of_shard_shop;
 
     [SerializeField] GameObject field;
     private FieldScript field_script;
+
+    int coins;
+    int wish;
+    int shard;
+    public int cost_of_wish;
+
+    int active_character;
+
+    public Dictionary<int, Character> characters;
+
+    public System.Random random = new System.Random();
 
     private void Start()
     {
@@ -26,14 +81,117 @@ public class SaperController : MonoBehaviour
         shop_shop_panel.SetActive(false);
         profile_panel.SetActive(false);
         confirming_panel.SetActive(false);
+        not_enough_panel.SetActive(false);
+        not_enough_wish.SetActive(false);
+        wish_panel.SetActive(false);
 
-        count_of_coins.text = "0";
+        coins = 0;
+        wish = 0;
+        shard = 0;
+        cost_of_wish = 10;
+
+        count_of_coins_menu.text = "0";
+        count_of_coins_shop.text = "0";
+        count_of_wish_banner.text = "0";
+        count_of_wish_shop.text = "0";
+        count_of_shard_banner.text = "0";
+        count_of_shard_shop.text = "0";
+        cost_of_wish_shop.text = cost_of_wish.ToString();
+
+        Character Ivan = new Character("Ivan", "none", true, true, Ivan_sprite);
+        Character Lusi = new Character("Lusi", "can slightly look under a square of 9 cells", false, false, Lusi_sprite);
+        Character Geremi = new Character("Geremi", "throws a bomb in a field to destroy 6 cells", false, false, Geremi_sprite);
+        Character Makito = new Character("Makito", "has 1 extra life, can survive 1 explosion", false, false, Makito_sprite);
+        Character Stepan = new Character("Stepan", "doesn't lose any money if loses a game", false, false, Stepan_sprite);
+
+        characters = new Dictionary<int, Character>();
+
+        characters.Add(0, Ivan);
+        characters.Add(1, Lusi);
+        characters.Add(2, Geremi);
+        characters.Add(3, Makito);
+        characters.Add(4, Stepan);
+}
+
+    public void BuyWish()
+    {
+        if (coins - cost_of_wish >= 0)
+        {
+            coins -= cost_of_wish;
+            EditCoinsCount();
+
+            wish++;
+            EditWishCount();
+        }
+        else
+        {
+            ShowNotEnoughPaymentPanel();
+        }
+    }
+
+    public void Wish()
+    {
+        if (wish > 0)
+        {
+            wish--;
+            EditWishCount();
+
+            wish_panel.SetActive(true);
+
+            int character_1_10 = random.Next(1, 11);
+            int result_1_10 = random.Next(1, 11);
+
+            if (character_1_10 == result_1_10)
+            {
+                int character_1_4 = random.Next(1, 5);
+
+                avatar.sprite = characters[character_1_4].avatar;
+                name.text = characters[character_1_4].name;
+                ability.text = "Ability: " + characters[character_1_4].ability;
+            }
+            else
+            {
+                int chance_of_much_1 = random.Next(1, 3);
+                int chance_of_much_2 = random.Next(1, 3);
+
+                int amount_0_3;
+
+                if (chance_of_much_1 == chance_of_much_2) amount_0_3 = random.Next(2, 4);
+                else amount_0_3 = random.Next(0, 2);
+
+                shard += amount_0_3;
+                EditShardCount();
+
+                avatar.sprite = shard_sprite;
+                name.text = "Bomb shard";
+                ability.text = "Amount: " + amount_0_3.ToString();
+            }
+        }
+        else
+        {
+            not_enough_wish.SetActive(true);
+        }
+    }
+
+    public void CloseNotEnoughWish()
+    {
+        not_enough_wish.SetActive(false);
     }
 
     public void MenuToShop()
     {
         main_menu_panel.SetActive(false);
         shop_panel.SetActive(true);
+    }
+
+    public void OpenWishPanel()
+    {
+        wish_panel.SetActive(true);
+    }
+
+    public void CloseWishPanel()
+    {
+        wish_panel.SetActive(false);
     }
 
     public void ShopToMenu()
@@ -59,7 +217,18 @@ public class SaperController : MonoBehaviour
 
     public void AddCoins(int revard)
     {
-        count_of_coins.text = (int.Parse(count_of_coins.text) + revard).ToString();
+        coins += revard;
+        EditCoinsCount();
+    }
+
+    public void ShowNotEnoughPaymentPanel()
+    {
+        not_enough_panel.SetActive(true);
+    }
+
+    public void HideNotEnoughPaymentPanel()
+    {
+        not_enough_panel.SetActive(false);
     }
 
     public void MenuToGame()
@@ -95,5 +264,24 @@ public class SaperController : MonoBehaviour
     {
         profile_panel.SetActive(false);
         main_menu_panel.SetActive(true);
+    }
+
+    private void EditCoinsCount()
+    {
+        count_of_coins_menu.text = coins.ToString();
+        count_of_coins_banner.text = coins.ToString();
+        count_of_coins_shop.text = coins.ToString();
+    }
+
+    private void EditShardCount()
+    {
+        count_of_shard_banner.text = shard.ToString();
+        count_of_shard_shop.text = shard.ToString();
+    }
+
+    private void EditWishCount()
+    {
+        count_of_wish_banner.text = wish.ToString();
+        count_of_wish_shop.text = wish.ToString();
     }
 }
