@@ -14,10 +14,17 @@ public class FieldScript : MonoBehaviour
 
     [SerializeField] GameObject panel;
 
+    [SerializeField] GameObject end_of_the_game;
+    [SerializeField] Text end_of_the_game_text;
+    [SerializeField] Text get_coins;
+
     [SerializeField] GameObject cell_prefab;
     [SerializeField] GameObject dark_cell_prefab;
     [SerializeField] GameObject flag_prefab;
     [SerializeField] GameObject bomb_prefab;
+
+    GameObject saper_controller;
+    private SaperController controller;
 
     int[,] cells;
     GameObject[,] new_cells;
@@ -28,8 +35,27 @@ public class FieldScript : MonoBehaviour
     bool[,] is_flag;
     GameObject[,] flags;
 
-    void Start()
+    bool is_first_move;
+    int bomb_found;
+    int prize;
+
+    private void Start()
     {
+        saper_controller = GameObject.Find("Saper_Controller");
+        controller = saper_controller.GetComponent<SaperController>();
+
+        end_of_the_game.SetActive(false);
+
+        StartNewGame();
+    }
+
+    public void StartNewGame()
+    {
+        end_of_the_game.SetActive(false);
+        is_first_move = true;
+        bomb_found = 0;
+        prize = 0;
+
         cells = new int[width, height];
         new_cells = new GameObject[width, height];
         dark_cells = new GameObject[width, height];
@@ -147,6 +173,14 @@ public class FieldScript : MonoBehaviour
 
         if (cells[i, j] < 0)
         {
+            if (is_first_move)
+            {
+                Debug.Log("MINAAA!! LOADING A NEW GAME");
+                StartNewGame();
+                OpenCell(i, j);
+                return;
+            }
+
             new_cells[i, j] = Instantiate(bomb_prefab, Vector3.zero, Quaternion.identity, transform);
             RectTransform rect_transform = new_cells[i, j].GetComponent<RectTransform>();
 
@@ -157,7 +191,15 @@ public class FieldScript : MonoBehaviour
             rect_transform.offsetMax = Vector2.zero;
 
             new_cells[i, j].SetActive(true);
-            //Start();
+
+
+
+            end_of_the_game.SetActive(true);
+
+            end_of_the_game_text.text = "You lose!\nYour prize from the game is\n";
+            get_coins.text = prize.ToString();
+
+            controller.AddCoins(prize);
         }
 
         if (cells[i, j] == 0)
@@ -174,14 +216,37 @@ public class FieldScript : MonoBehaviour
             if ((i < width - 1) && (j > 0)) OpenCell(i + 1, j - 1);
             if ((i < width - 1) && (j < height - 1)) OpenCell(i + 1, j + 1);
         }
+
+        is_first_move = false;
     }
 
     void PlaceFlag(int i, int j)
     {
         is_flag[i, j] = !is_flag[i, j];
 
-        if (is_flag[i, j]) flags[i, j].SetActive(true);
-        else flags[i, j].SetActive(false);
+        if (is_flag[i, j])
+        {
+            flags[i, j].SetActive(true);
+
+            if (cells[i, j] < 0) bomb_found++;
+        }
+        else
+        {
+            flags[i, j].SetActive(false);
+
+            if (cells[i, j] < 0) bomb_found--;
+        }
+
+        if (bomb_found == bomb_count)
+        {
+            prize = bomb_count;
+            end_of_the_game.SetActive(true);
+
+            end_of_the_game_text.text = "Congratulations!\nYour prize from the game is\n";
+            get_coins.text = prize.ToString();
+
+            controller.AddCoins(prize);
+        }
     }
 
     private void PlaceNewBomb(int i, int j)
