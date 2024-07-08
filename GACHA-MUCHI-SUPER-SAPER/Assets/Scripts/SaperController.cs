@@ -15,20 +15,31 @@ public class SaperController : MonoBehaviour
         public bool is_obtained;
         public bool is_selected;
         public Sprite avatar;
+        public Image cross;
 
-        public Character(string _name, string _ability, bool _is_obtained, bool _is_selected, Sprite _avatar)
+        public Character(string _name, string _ability, bool _is_obtained, bool _is_selected, Sprite _avatar, Image _cross)
         {
             this.name = _name;
             this.ability = _ability;
             this.is_obtained = _is_obtained;
             this.is_selected = _is_selected;
             this.avatar = _avatar;
+            this.cross = _cross;
         }
     }
+
+    [SerializeField] Image selected_avatar;
+    [SerializeField] Text selected_ability;
 
     [SerializeField] Image avatar;
     [SerializeField] Text name;
     [SerializeField] Text ability;
+
+    [SerializeField] Image cross_Ivan;
+    [SerializeField] Image cross_Lusi;
+    [SerializeField] Image cross_Geremi;
+    [SerializeField] Image cross_Makito;
+    [SerializeField] Image cross_Stepan;
 
     [SerializeField] Sprite shard_sprite;
     [SerializeField] Sprite Ivan_sprite;
@@ -57,6 +68,12 @@ public class SaperController : MonoBehaviour
     [SerializeField] Text count_of_shard_banner;
     [SerializeField] Text count_of_shard_shop;
 
+    [SerializeField] Button Ivan_button;
+    [SerializeField] Button Lusi_button;
+    [SerializeField] Button Geremi_button;
+    [SerializeField] Button Makito_button;
+    [SerializeField] Button Stepan_button;
+
     [SerializeField] GameObject field;
     private FieldScript field_script;
 
@@ -65,7 +82,7 @@ public class SaperController : MonoBehaviour
     int shard;
     public int cost_of_wish;
 
-    int active_character;
+    Character active_character;
 
     public Dictionary<int, Character> characters;
 
@@ -85,6 +102,12 @@ public class SaperController : MonoBehaviour
         not_enough_wish.SetActive(false);
         wish_panel.SetActive(false);
 
+        cross_Ivan.gameObject.SetActive(false);
+        cross_Lusi.gameObject.SetActive(true);
+        cross_Geremi.gameObject.SetActive(true);
+        cross_Makito.gameObject.SetActive(true);
+        cross_Stepan.gameObject.SetActive(true);
+
         coins = 0;
         wish = 0;
         shard = 0;
@@ -98,11 +121,11 @@ public class SaperController : MonoBehaviour
         count_of_shard_shop.text = "0";
         cost_of_wish_shop.text = cost_of_wish.ToString();
 
-        Character Ivan = new Character("Ivan", "none", true, true, Ivan_sprite);
-        Character Lusi = new Character("Lusi", "can slightly look under a square of 9 cells", false, false, Lusi_sprite);
-        Character Geremi = new Character("Geremi", "throws a bomb in a field to destroy 6 cells", false, false, Geremi_sprite);
-        Character Makito = new Character("Makito", "has 1 extra life, can survive 1 explosion", false, false, Makito_sprite);
-        Character Stepan = new Character("Stepan", "doesn't lose any money if loses a game", false, false, Stepan_sprite);
+        Character Ivan = new Character("Ivan", "none", true, true, Ivan_sprite, cross_Ivan);
+        Character Lusi = new Character("Lusi", "can slightly look under a square of 9 cells", false, false, Lusi_sprite, cross_Lusi);
+        Character Geremi = new Character("Geremi", "throws a bomb in a field to destroy 6 cells", false, false, Geremi_sprite, cross_Geremi);
+        Character Makito = new Character("Makito", "has 1 extra life, can survive 1 explosion", false, false, Makito_sprite, cross_Makito);
+        Character Stepan = new Character("Stepan", "doesn't lose any money if loses a game", false, false, Stepan_sprite, cross_Stepan);
 
         characters = new Dictionary<int, Character>();
 
@@ -111,7 +134,10 @@ public class SaperController : MonoBehaviour
         characters.Add(2, Geremi);
         characters.Add(3, Makito);
         characters.Add(4, Stepan);
-}
+
+        selected_avatar.sprite = Ivan.avatar;
+        selected_ability.text = "Ability: " + Ivan.ability;
+    }
 
     public void BuyWish()
     {
@@ -148,6 +174,11 @@ public class SaperController : MonoBehaviour
                 avatar.sprite = characters[character_1_4].avatar;
                 name.text = characters[character_1_4].name;
                 ability.text = "Ability: " + characters[character_1_4].ability;
+
+                Character new_character = characters[character_1_4];
+                new_character.is_obtained = true;
+                new_character.cross.gameObject.SetActive(false);
+                characters[character_1_4] = new_character;
             }
             else
             {
@@ -171,6 +202,41 @@ public class SaperController : MonoBehaviour
         {
             not_enough_wish.SetActive(true);
         }
+    }
+
+    public void SelectActiveCharacterIvan()
+    {
+        active_character = characters[0];
+        SelectActiveCharacter();
+    }
+
+    public void SelectActiveCharacterLusi()
+    {
+        active_character = characters[1];
+        SelectActiveCharacter();
+    }
+
+    public void SelectActiveCharacterGeremi()
+    {
+        active_character = characters[2];
+        SelectActiveCharacter();
+    }
+    public void SelectActiveCharacterMakito()
+    {
+        active_character = characters[3];
+        SelectActiveCharacter();
+    }
+
+    public void SelectActiveCharacterStepan()
+    {
+        active_character = characters[4];
+        SelectActiveCharacter();
+    }
+
+    private void SelectActiveCharacter()
+    { 
+        selected_avatar.sprite = active_character.avatar;
+        selected_ability.text = "Ability: " + active_character.ability;
     }
 
     public void CloseNotEnoughWish()

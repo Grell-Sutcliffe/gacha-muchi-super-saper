@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ButtonsScripts : MonoBehaviour
 {
@@ -11,6 +12,31 @@ public class ButtonsScripts : MonoBehaviour
     {
         saper_controller = GameObject.Find("Saper_Controller");
         controller = saper_controller.GetComponent<SaperController>();
+    }
+
+    public void SelectCharacterIvan()
+    {
+        controller.SelectActiveCharacterIvan();
+    }
+
+    public void SelectCharacterLusi()
+    {
+        controller.SelectActiveCharacterLusi();
+    }
+
+    public void SelectCharacterGeremi()
+    {
+        controller.SelectActiveCharacterGeremi();
+    }
+
+    public void SelectCharacterMakito()
+    {
+        controller.SelectActiveCharacterMakito();
+    }
+
+    public void SelectCharacterStepan()
+    {
+        controller.SelectActiveCharacterStepan();
     }
 
     public void CloseNotEnoughWish()
