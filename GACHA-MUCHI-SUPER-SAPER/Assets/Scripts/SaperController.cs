@@ -144,7 +144,7 @@ public class SaperController : MonoBehaviour
         Character Lusi = new Character("Lusi", "can slightly look under a square of 9 cells", false, false, Lusi_sprite, cross_Lusi);
         Character Geremi = new Character("Geremi", "throws a bomb in a field to destroy 6 cells", false, false, Geremi_sprite, cross_Geremi);
         Character Makito = new Character("Makito", "has 1 extra life, can survive 1 explosion", false, false, Makito_sprite, cross_Makito);
-        Character Stepan = new Character("Stepan", "doesn't lose any money if loses a game", false, false, Stepan_sprite, cross_Stepan);
+        Character Stepan = new Character("Drunc", "doesn't lose any money if loses a game", false, false, Stepan_sprite, cross_Stepan);
 
         characters = new Dictionary<int, Character>();
 

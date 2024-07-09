@@ -51,7 +51,7 @@ public class FieldScript : MonoBehaviour
         controller = saper_controller.GetComponent<SaperController>();
         active_character = controller.GetActiveCharacter();
 
-        Debug.Log(active_character);
+        
         end_of_the_game.SetActive(false);
 
         //StartNewGame(); ?
@@ -59,6 +59,10 @@ public class FieldScript : MonoBehaviour
 
     public void StartNewGame()
     {
+        saper_controller = GameObject.Find("Saper_Controller");//new
+        controller = saper_controller.GetComponent<SaperController>();//new
+        active_character = controller.GetActiveCharacter();//new
+        Debug.Log(active_character);
         end_of_the_game.SetActive(false);
         is_first_move = true;
         bomb_found = 0;
