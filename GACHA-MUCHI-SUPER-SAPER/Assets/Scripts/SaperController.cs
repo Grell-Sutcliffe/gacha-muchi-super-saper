@@ -32,6 +32,10 @@ public class SaperController : MonoBehaviour
     [SerializeField] Image selected_avatar;
     [SerializeField] Text selected_ability;
 
+    [SerializeField] Image selected_avatar_in_game;
+    [SerializeField] Text selected_ability_in_game;
+
+
     [SerializeField] Image avatar;
     [SerializeField] Text name;
     [SerializeField] Text ability;
@@ -97,7 +101,7 @@ public class SaperController : MonoBehaviour
     public System.Random random = new System.Random();
 
     private void Start()
-    {
+    {   
         field_script = field.GetComponent<FieldScript>();
 
         main_menu_panel.SetActive(true);
@@ -149,9 +153,11 @@ public class SaperController : MonoBehaviour
         characters.Add(2, Geremi);
         characters.Add(3, Makito);
         characters.Add(4, Stepan);
-
         selected_avatar.sprite = Ivan.avatar;
         selected_ability.text = "Ability: " + Ivan.ability;
+        active_character = Ivan;
+
+        AddCoins(200);
     }
 
     public void BuyWish()
@@ -292,6 +298,8 @@ public class SaperController : MonoBehaviour
     { 
         selected_avatar.sprite = active_character.avatar;
         selected_ability.text = "Ability: " + active_character.ability;
+        selected_avatar_in_game.sprite = active_character.avatar;
+        selected_ability_in_game.text = "Ability: " + active_character.ability;
     }
 
     public string GetActiveCharacter()
@@ -360,6 +368,7 @@ public class SaperController : MonoBehaviour
     {
         main_menu_panel.SetActive(false);
         game_panel.SetActive(true);
+        StartNewGame();
     }
 
     public void ConfirmingExiting()
@@ -369,6 +378,7 @@ public class SaperController : MonoBehaviour
 
     public void ExitGame()
     {
+        
         game_panel.SetActive(false);
         confirming_panel.SetActive(false);
         main_menu_panel.SetActive(true);

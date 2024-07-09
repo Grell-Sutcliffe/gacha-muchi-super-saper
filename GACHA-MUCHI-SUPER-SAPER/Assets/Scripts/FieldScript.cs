@@ -43,18 +43,18 @@ public class FieldScript : MonoBehaviour
     int flag_placed;
     int prize;
 
-    string active_character = "Drunc";
+    string active_character = "Ivan";
 
     private void Start()
     {
-        width = 10;
-        height = 10;
         saper_controller = GameObject.Find("Saper_Controller");
         controller = saper_controller.GetComponent<SaperController>();
-        controller.GetActiveCharacter();
+        active_character = controller.GetActiveCharacter();
+
+        Debug.Log(active_character);
         end_of_the_game.SetActive(false);
 
-        StartNewGame();
+        //StartNewGame(); ?
     }
 
     public void StartNewGame()
