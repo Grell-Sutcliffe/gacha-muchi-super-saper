@@ -23,6 +23,10 @@ public class FieldScript : MonoBehaviour
     [SerializeField] GameObject flag_prefab;
     [SerializeField] GameObject bomb_prefab;
 
+    //[SerializeField] Text char_menu;
+    //[SerializeField] Text char_game;
+
+
     GameObject saper_controller;
     private SaperController controller;
 
@@ -39,6 +43,8 @@ public class FieldScript : MonoBehaviour
     int bomb_found;
     int flag_placed;
     int prize;
+
+    string active_character = "Drunc";
 
     private void Start()
     {
@@ -164,7 +170,7 @@ public class FieldScript : MonoBehaviour
         else if (is_opened[i, j] == false) PlaceFlag(i, j);
     }
 
-    void OpenCell(int i, int j)
+    void OpenCell(int i, int j, bool first_tap = true)
     {
         if (new_cells[i, j].activeSelf) return;
         new_cells[i, j].SetActive(true);
@@ -172,6 +178,7 @@ public class FieldScript : MonoBehaviour
         is_flag[i, j] = false;
         flags[i, j].SetActive(false);
         is_opened[i, j] = true;
+        bool Is_first = first_tap;
 
         if (cells[i, j] < 0)
         {
@@ -203,7 +210,28 @@ public class FieldScript : MonoBehaviour
 
             controller.AddCoins(prize);
         }
-
+        if (active_character == "Drunc"&& Is_first) {
+            int random_i = Random.Range(-1, 2);
+            int random_j = Random.Range(-1, 2);
+            int k = 0;
+            while(k <20)
+            {
+                if ((i + random_i >= 0 && i + random_i < width) &&
+                    (j + random_j >= 0 && j + random_j < height)&&
+                    !new_cells[i + random_i, j + random_j].activeSelf &&
+                    cells[i + random_i, j + random_j] >= 0
+                    )
+                {
+                    Debug.Log((random_i) + " " + (random_j));
+                    OpenCell(i + random_i, j + random_j, false);
+                    break;
+                }
+                random_i = Random.Range(-1, 1);
+                random_j = Random.Range(-1, 1);
+                k++;
+            }
+            
+        }
         if (cells[i, j] == 0)
         {
             if (i > 0) OpenCell(i - 1, j);

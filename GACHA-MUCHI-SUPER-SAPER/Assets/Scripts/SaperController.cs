@@ -291,6 +291,10 @@ public class SaperController : MonoBehaviour
         selected_ability.text = "Ability: " + active_character.ability;
     }
 
+    private string GetActiveCharacter()
+    {
+        return active_character.name;
+    }
     public void CloseNotEnoughWish()
     {
         not_enough_wish.SetActive(false);
