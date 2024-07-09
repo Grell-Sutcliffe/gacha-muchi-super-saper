@@ -24,7 +24,6 @@ public class FieldScript : MonoBehaviour
     [SerializeField] GameObject bomb_prefab;
 
     //[SerializeField] Text char_menu;
-    //[SerializeField] Text char_game;
 
 
     GameObject saper_controller;
@@ -48,9 +47,11 @@ public class FieldScript : MonoBehaviour
 
     private void Start()
     {
+        width = 10;
+        height = 10;
         saper_controller = GameObject.Find("Saper_Controller");
         controller = saper_controller.GetComponent<SaperController>();
-
+        controller.GetActiveCharacter();
         end_of_the_game.SetActive(false);
 
         StartNewGame();

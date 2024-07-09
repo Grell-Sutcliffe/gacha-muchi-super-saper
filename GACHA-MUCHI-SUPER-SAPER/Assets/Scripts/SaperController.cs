@@ -4,6 +4,7 @@ using UnityEngine.Rendering.VirtualTexturing;
 using UnityEngine.UI;
 using System;
 using UnityEditor.Playables;
+using TMPro;
 
 public class SaperController : MonoBehaviour
 {
@@ -77,6 +78,8 @@ public class SaperController : MonoBehaviour
     [SerializeField] Button Geremi_button;
     [SerializeField] Button Makito_button;
     [SerializeField] Button Stepan_button;
+
+    [SerializeField] TextMeshProUGUI char_game;
 
     [SerializeField] GameObject field;
     private FieldScript field_script;
@@ -291,7 +294,7 @@ public class SaperController : MonoBehaviour
         selected_ability.text = "Ability: " + active_character.ability;
     }
 
-    private string GetActiveCharacter()
+    public string GetActiveCharacter()
     {
         return active_character.name;
     }
