@@ -160,6 +160,11 @@ public class SaperController : MonoBehaviour
         AddCoins(200);
     }
 
+    public void UseAbility()
+    {
+        field_script.UseAbilityBomber();
+    }
+
     public void BuyWish()
     {
         if (coins - cost_of_wish >= 0)

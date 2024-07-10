@@ -23,6 +23,12 @@ public class FieldScript : MonoBehaviour
     [SerializeField] GameObject flag_prefab;
     [SerializeField] GameObject bomb_prefab;
 
+    [SerializeField] GameObject AbilityButton; //BOOM
+
+    [SerializeField] private GameObject _cursorSprite; //BOOM
+    private bool AbilityButtonPressed; //BOOM
+    private bool AbilityBomberUsed; //BOOM
+
     //[SerializeField] Text char_menu;
 
 
@@ -50,18 +56,17 @@ public class FieldScript : MonoBehaviour
         saper_controller = GameObject.Find("Saper_Controller");
         controller = saper_controller.GetComponent<SaperController>();
         active_character = controller.GetActiveCharacter();
-
         
         end_of_the_game.SetActive(false);
 
-        //StartNewGame(); ?
+        StartNewGame();
     }
 
     public void StartNewGame()
     {
-        saper_controller = GameObject.Find("Saper_Controller");//new
-        controller = saper_controller.GetComponent<SaperController>();//new
-        active_character = controller.GetActiveCharacter();//new
+        // saper_controller = GameObject.Find("Saper_Controller");//new
+        // controller = saper_controller.GetComponent<SaperController>();//new
+        // active_character = controller.GetActiveCharacter();//new
         Debug.Log(active_character);
         end_of_the_game.SetActive(false);
         is_first_move = true;
@@ -171,18 +176,52 @@ public class FieldScript : MonoBehaviour
         //int i = (int)(pointer.position.x / Screen.width * width);
         //int j = (int)(pointer.position.y / Screen.height * height);
 
-        if (Input.GetMouseButtonDown(0)) OpenCell(i, j);
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (AbilityButtonPressed && !AbilityBomberUsed) //BOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOM
+            {
+                UseAbilityBomber();
+                BomberOpenCell(i, j);
+                AbilityBomberUsed = true;
+            }
+            else OpenCell(i, j);
+        }
         else if (is_opened[i, j] == false) PlaceFlag(i, j);
     }
+
+    void BomberOpenCell(int i, int j)
+    {
+        for (int dx = -1; dx <= 1; ++dx)
+        {
+            for (int dy = -1; dy <= 1; ++dy)
+            {
+                int coord_x = i + dx;
+                int coord_y = j + dy;
+                if (coord_x < 0 || coord_y < 0 || coord_x > width || coord_y > height) continue;
+
+                if (cells[coord_x, coord_y] < 0 && !is_flag[coord_x, coord_y])
+                {
+                    PlaceFlag(coord_x, coord_y);
+                }
+                else if (cells[coord_x, coord_y] >= 0)
+                {
+                    OpenCell(coord_x, coord_y);
+                }
+            }
+        }
+    }
+
 
     void OpenCell(int i, int j, bool first_tap = true)
     {
         if (new_cells[i, j].activeSelf) return;
+
         new_cells[i, j].SetActive(true);
         dark_cells[i, j].SetActive(false);
         is_flag[i, j] = false;
         flags[i, j].SetActive(false);
         is_opened[i, j] = true;
+
         bool Is_first = first_tap;
 
         if (cells[i, j] < 0)
@@ -215,14 +254,16 @@ public class FieldScript : MonoBehaviour
 
             controller.AddCoins(prize);
         }
-        if (active_character == "Drunc"&& Is_first) {
+
+        if (active_character == "Drunc" && Is_first) {
             int random_i = Random.Range(-1, 2);
             int random_j = Random.Range(-1, 2);
             int k = 0;
-            while(k <20)
+
+            while (k < 20)
             {
                 if ((i + random_i >= 0 && i + random_i < width) &&
-                    (j + random_j >= 0 && j + random_j < height)&&
+                    (j + random_j >= 0 && j + random_j < height) &&
                     !new_cells[i + random_i, j + random_j].activeSelf &&
                     cells[i + random_i, j + random_j] >= 0
                     )
@@ -231,12 +272,15 @@ public class FieldScript : MonoBehaviour
                     OpenCell(i + random_i, j + random_j, false);
                     break;
                 }
+
                 random_i = Random.Range(-1, 1);
                 random_j = Random.Range(-1, 1);
+
                 k++;
             }
             
         }
+
         if (cells[i, j] == 0)
         {
             if (i > 0) OpenCell(i - 1, j);
@@ -301,5 +345,13 @@ public class FieldScript : MonoBehaviour
 
         if ((i < width - 1) && (j > 0)) cells[i + 1, j - 1]++;
         if ((i < width - 1) && (j < height - 1)) cells[i + 1, j + 1]++;
+    }
+
+    public void UseAbilityBomber()
+    {
+        Debug.Log("Button has been clicked");
+        if (AbilityBomberUsed) return;
+        AbilityButtonPressed = true;
+        _cursorSprite.SetActive(true);
     }
 }
