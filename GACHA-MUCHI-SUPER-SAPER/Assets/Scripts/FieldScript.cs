@@ -22,6 +22,7 @@ public class FieldScript : MonoBehaviour
     [SerializeField] GameObject dark_cell_prefab;
     [SerializeField] GameObject flag_prefab;
     [SerializeField] GameObject bomb_prefab;
+    [SerializeField] GameObject AbilityButton;
 
     [SerializeField] private GameObject _cursorSprite;
     private bool AbilityButtonPressed;
@@ -56,6 +57,7 @@ public class FieldScript : MonoBehaviour
         active_character = controller.GetActiveCharacter();
 
         end_of_the_game.SetActive(false);
+        AbilityButton.SetActive(true);
 
         //StartNewGame(); ?
     }
