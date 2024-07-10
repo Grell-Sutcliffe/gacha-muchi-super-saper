@@ -23,6 +23,9 @@ public class FieldScript : MonoBehaviour
     [SerializeField] GameObject flag_prefab;
     [SerializeField] GameObject bomb_prefab;
     [SerializeField] GameObject AbilityButton;
+    [SerializeField] Button AbilityButtonImage;
+    [SerializeField] AudioSource BoomButtonSound;
+    [SerializeField] AudioSource BoomSound;
 
     [SerializeField] private GameObject _cursorSprite;
     private bool AbilityButtonPressed;
@@ -183,9 +186,11 @@ public class FieldScript : MonoBehaviour
         {
             if (AbilityButtonPressed && !AbilityBomberUsed)
             {
+                BoomSound.Play();
                 BomberOpenCell(i, j);
                 UseAbilityBomber();
                 AbilityBomberUsed = true;
+                AbilityButtonImage.interactable = false;
             } else
             {
                 OpenCell(i, j);
@@ -353,6 +358,10 @@ public class FieldScript : MonoBehaviour
         Debug.Log("Button has been clicked");
         if (AbilityBomberUsed) return;
         AbilityButtonPressed = !AbilityButtonPressed;
+        if (AbilityButtonPressed)
+        {
+            BoomButtonSound.Play();
+        }
         _cursorSprite.SetActive(AbilityButtonPressed);
     }
 
