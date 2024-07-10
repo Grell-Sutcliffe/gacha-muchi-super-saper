@@ -17974,6 +17974,7 @@ MonoBehaviour:
   dark_cell_prefab: {fileID: 757006867989168267, guid: b553f624006091f4d812ab44323e2f0a, type: 3}
   flag_prefab: {fileID: 6161555398903498674, guid: 868a0dc8527b18845b1efc7928edb1e0, type: 3}
   bomb_prefab: {fileID: 576443228843598656, guid: 1bce920de29fd704ab61124209f75919, type: 3}
+  AbilityButton: {fileID: 657129415}
   _cursorSprite: {fileID: 74332604}
 --- !u!114 &1993694001
 MonoBehaviour:
