@@ -67,7 +67,8 @@ public class FieldScript : MonoBehaviour
 
     public void StartNewGame()
     {
-        AbilityButtonPressed = false; AbilityBomberUsed = false;
+        AbilityButtonPressed = false; 
+        AbilityBomberUsed = false;
         saper_controller = GameObject.Find("Saper_Controller");//new
         controller = saper_controller.GetComponent<SaperController>();//new
         active_character = controller.GetActiveCharacter();//new
@@ -181,7 +182,7 @@ public class FieldScript : MonoBehaviour
         //int j = (int)(pointer.position.y / Screen.height * height);
 
 
-
+        if (i < 0 || j < 0 || i >= width || j >= height) return;
         if (Input.GetMouseButtonDown(0))
         {
             if (AbilityButtonPressed && !AbilityBomberUsed)
@@ -206,10 +207,10 @@ public class FieldScript : MonoBehaviour
         for (int dx = -1; dx <= 1; ++dx)
         {
             for (int dy = -1; dy <= 1; ++dy)
-            {
+            {   
                 int coord_x = i + dx;
                 int coord_y = j + dy;
-                if (coord_x < 0 || coord_y < 0 || coord_x > width || coord_y > height) continue;
+                if (coord_x < 0 || coord_y < 0 || coord_x >= width || coord_y >= height) continue;
 
                 if (cells[coord_x, coord_y] < 0 && !is_flag[coord_x, coord_y])
                 {
@@ -268,7 +269,7 @@ public class FieldScript : MonoBehaviour
             int random_i = Random.Range(-1, 2);
             int random_j = Random.Range(-1, 2);
             int k = 0;
-            while (k < 20)
+            while (k < 200)
             {
                 if ((i + random_i >= 0 && i + random_i < width) &&
                     (j + random_j >= 0 && j + random_j < height) &&
@@ -280,8 +281,8 @@ public class FieldScript : MonoBehaviour
                     OpenCell(i + random_i, j + random_j, false);
                     break;
                 }
-                random_i = Random.Range(-1, 1);
-                random_j = Random.Range(-1, 1);
+                random_i = Random.Range(-1, 2);
+                random_j = Random.Range(-1, 2);
                 k++;
             }
 
