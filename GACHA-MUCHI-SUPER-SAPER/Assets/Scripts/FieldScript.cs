@@ -62,13 +62,14 @@ public class FieldScript : MonoBehaviour
         end_of_the_game.SetActive(false);
         AbilityButton.SetActive(true);
 
-        //StartNewGame(); ?
+        //StartNewGame();
     }
 
     public void StartNewGame()
     {
         AbilityButtonPressed = false; 
         AbilityBomberUsed = false;
+        AbilityButtonImage.interactable = true;
         saper_controller = GameObject.Find("Saper_Controller");//new
         controller = saper_controller.GetComponent<SaperController>();//new
         active_character = controller.GetActiveCharacter();//new
