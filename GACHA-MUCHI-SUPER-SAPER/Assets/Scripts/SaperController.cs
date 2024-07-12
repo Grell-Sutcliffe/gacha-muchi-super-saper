@@ -229,7 +229,7 @@ public class SaperController : MonoBehaviour
 
                 avatar.sprite = characters[character_1_4].avatar;
                 name.text = characters[character_1_4].name;
-                ability.text = "Способность: " + characters[character_1_4].ability;
+                ability.text = "" + characters[character_1_4].ability;
 
                 GetCharacter(character_1_4);
             }
@@ -247,8 +247,8 @@ public class SaperController : MonoBehaviour
                 EditShardCount();
 
                 avatar.sprite = shard_sprite;
-                name.text = "Шард";
-                ability.text = "Количество: " + amount_0_3.ToString();
+                name.text = "";
+                ability.text = "" + amount_0_3.ToString();
             }
         }
         else
