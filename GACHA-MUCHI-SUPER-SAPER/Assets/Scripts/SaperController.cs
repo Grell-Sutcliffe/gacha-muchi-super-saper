@@ -86,7 +86,11 @@ public class SaperController : MonoBehaviour
     [SerializeField] TextMeshProUGUI char_game;
 
     [SerializeField] GameObject field;
+    [SerializeField] GameObject SoundHolder;
+
     private FieldScript field_script;
+    private AudioSource click_sound;
+    private AudioSource flag_sound;
 
     int coins;
     int wish;
@@ -103,6 +107,10 @@ public class SaperController : MonoBehaviour
     private void Start()
     {   
         field_script = field.GetComponent<FieldScript>();
+
+        SoundHolder.SetActive(true);
+        //click_sound = GameObject.Find("click_sound").GetComponent<AudioSource>();
+        //flag_sound = GameObject.Find("flag_click").GetComponent<AudioSource>();
 
         main_menu_panel.SetActive(true);
         game_panel.SetActive(false);

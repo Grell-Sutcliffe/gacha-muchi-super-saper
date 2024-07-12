@@ -26,6 +26,8 @@ public class FieldScript : MonoBehaviour
     [SerializeField] Button AbilityButtonImage;
     [SerializeField] AudioSource BoomButtonSound;
     [SerializeField] AudioSource BoomSound;
+    [SerializeField] AudioSource FlagSound;
+    [SerializeField] AudioSource ClickSound;
 
     [SerializeField] private GameObject _cursorSprite;
     private bool AbilityButtonPressed;
@@ -197,6 +199,7 @@ public class FieldScript : MonoBehaviour
             } else
             {
                 OpenCell(i, j);
+                ClickSound.Play();
 
             }
         }
@@ -311,6 +314,7 @@ public class FieldScript : MonoBehaviour
     void PlaceFlag(int i, int j)
     {
         is_flag[i, j] = !is_flag[i, j];
+        FlagSound.Play();
 
         if (is_flag[i, j])
         {
