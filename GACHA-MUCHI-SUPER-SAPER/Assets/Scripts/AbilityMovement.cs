@@ -12,8 +12,8 @@ public class AbilityMovement : MonoBehaviour
         Vector3 mousePosition = Input.mousePosition;
 
         // Clamp the position within the canvas bounds
-        mousePosition.x = Mathf.Clamp(mousePosition.x, 0, _canvas.rect.width);
-        mousePosition.y = Mathf.Clamp(mousePosition.y, 0, _canvas.rect.height);
+        //mousePosition.x = Mathf.Clamp(mousePosition.x, 0, _canvas.rect.width);
+        //mousePosition.y = Mathf.Clamp(mousePosition.y, 0, _canvas.rect.height);
 
         transform.position = mousePosition;
     }

@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.VirtualTexturing;
+//using UnityEngine.Rendering.VirtualTexturing;
 using UnityEngine.UI;
 using System;
-using UnityEditor.Playables;
+//using UnityEditor.Playables;
 using TMPro;
 
 public class SaperController : MonoBehaviour
@@ -140,11 +140,11 @@ public class SaperController : MonoBehaviour
         count_of_shard_shop.text = "0";
         cost_of_wish_shop.text = cost_of_wish.ToString();
 
-        Character Ivan = new Character("Ivan", "none", true, true, Ivan_sprite, cross_Ivan);
-        Character Lusi = new Character("Lusi", "can slightly look under a square of 9 cells", false, false, Lusi_sprite, cross_Lusi);
-        Character Geremi = new Character("Geremi", "throws a bomb in a field to destroy 6 cells", false, false, Geremi_sprite, cross_Geremi);
-        Character Makito = new Character("Makito", "has 1 extra life, can survive 1 explosion", false, false, Makito_sprite, cross_Makito);
-        Character Stepan = new Character("Drunc", "doesn't lose any money if loses a game", false, false, Stepan_sprite, cross_Stepan);
+        Character Ivan = new Character("Ivan", "нет", true, true, Ivan_sprite, cross_Ivan);
+        Character Lusi = new Character("Lusi", "в разработке", false, false, Lusi_sprite, cross_Lusi);
+        Character Geremi = new Character("Geremi", "в разработке", false, false, Geremi_sprite, cross_Geremi);
+        Character Makito = new Character("Makito", "в разработке", false, false, Makito_sprite, cross_Makito);
+        Character Stepan = new Character("Пьяница", "дополнительно ходит на 1 клетку в радиусе 1", false, false, Stepan_sprite, cross_Stepan);
 
         characters = new Dictionary<int, Character>();
 
@@ -154,7 +154,7 @@ public class SaperController : MonoBehaviour
         characters.Add(3, Makito);
         characters.Add(4, Stepan);
         selected_avatar.sprite = Ivan.avatar;
-        selected_ability.text = "Ability: " + Ivan.ability;
+        selected_ability.text = "Способность: " + Ivan.ability;
         active_character = Ivan;
 
         AddCoins(200);
@@ -229,7 +229,7 @@ public class SaperController : MonoBehaviour
 
                 avatar.sprite = characters[character_1_4].avatar;
                 name.text = characters[character_1_4].name;
-                ability.text = "Ability: " + characters[character_1_4].ability;
+                ability.text = "Способность: " + characters[character_1_4].ability;
 
                 GetCharacter(character_1_4);
             }
@@ -247,8 +247,8 @@ public class SaperController : MonoBehaviour
                 EditShardCount();
 
                 avatar.sprite = shard_sprite;
-                name.text = "Bomb shard";
-                ability.text = "Amount: " + amount_0_3.ToString();
+                name.text = "Шард";
+                ability.text = "Количество: " + amount_0_3.ToString();
             }
         }
         else
@@ -297,9 +297,9 @@ public class SaperController : MonoBehaviour
     private void SelectActiveCharacter()
     { 
         selected_avatar.sprite = active_character.avatar;
-        selected_ability.text = "Ability: " + active_character.ability;
+        selected_ability.text = "Способность: " + active_character.ability;
         selected_avatar_in_game.sprite = active_character.avatar;
-        selected_ability_in_game.text = "Ability: " + active_character.ability;
+        selected_ability_in_game.text = "Способность: " + active_character.ability;
     }
 
     public string GetActiveCharacter()
@@ -310,6 +310,7 @@ public class SaperController : MonoBehaviour
     {
         not_enough_wish.SetActive(false);
     }
+
 
     public void MenuToShop()
     {

@@ -176,9 +176,10 @@ public class FieldScript : MonoBehaviour
         float top = panel.GetComponent<RectTransform>().offsetMin.x;
         float left = panel.GetComponent<RectTransform>().offsetMin.y;
 
-        int i = (int)((pointer.position.x - top) / panel_width * width);
-        int j = (int)((pointer.position.y - left) / panel_height * height);
-
+        //int i = (int)((pointer.position.x - top) / panel_width * width);
+        int i = (int)((pointer.position.x/ Screen.width - 0.06231743) / ((0.9367924 - 0.06231743)/16.0));
+        int j = (int)((pointer.position.y / Screen.height - 0.02249135) / ((0.8221477 - 0.02249135)/9.0));
+        Debug.Log(Screen.height + " " + pointer.position.x + " " + pointer.position.y / Screen.height);
         //int i = (int)(pointer.position.x / Screen.width * width);
         //int j = (int)(pointer.position.y / Screen.height * height);
 
@@ -260,12 +261,12 @@ public class FieldScript : MonoBehaviour
 
             end_of_the_game.SetActive(true);
 
-            end_of_the_game_text.text = "You lose!\nYour prize from the game is\n";
+            end_of_the_game_text.text = "Вы проиграли!\nВаш приз:\n";
             get_coins.text = prize.ToString();
 
             controller.AddCoins(prize);
         }
-        if (active_character == "Drunc" && Is_first)
+        if (active_character == "Пьяница" && Is_first)
         {
             int random_i = Random.Range(-1, 2);
             int random_j = Random.Range(-1, 2);
