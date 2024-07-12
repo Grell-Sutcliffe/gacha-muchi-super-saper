@@ -109,7 +109,7 @@ public class SaperController : MonoBehaviour
         field_script = field.GetComponent<FieldScript>();
 
         SoundHolder.SetActive(true);
-        //click_sound = GameObject.Find("click_sound").GetComponent<AudioSource>();
+        click_sound = GameObject.Find("click").GetComponent<AudioSource>();
         //flag_sound = GameObject.Find("flag_click").GetComponent<AudioSource>();
 
         main_menu_panel.SetActive(true);
@@ -217,6 +217,11 @@ public class SaperController : MonoBehaviour
         {
             ShowNotEnoughPaymentPanel();
         }
+    }
+
+    public void PlayClickSound()
+    {
+        click_sound.Play();
     }
 
     public void Wish()
