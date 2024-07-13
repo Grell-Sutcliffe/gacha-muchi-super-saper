@@ -69,7 +69,7 @@ public class FieldScript : MonoBehaviour
 
     public void StartNewGame()
     {
-        AbilityButtonPressed = false; 
+        AbilityButtonPressed = false;
         AbilityBomberUsed = false;
         AbilityButtonImage.interactable = true;
         saper_controller = GameObject.Find("Saper_Controller");//new
@@ -178,10 +178,17 @@ public class FieldScript : MonoBehaviour
         float top = panel.GetComponent<RectTransform>().offsetMin.x;
         float left = panel.GetComponent<RectTransform>().offsetMin.y;
 
+        float x_range = (dark_cells[width - 1, 0].transform.position.x - dark_cells[0, 0].transform.position.x) / 15;
+        float x_error = dark_cells[0, 0].transform.position.x - (x_range / 2);
+
+        float y_range = (dark_cells[0, height - 1].transform.position.y - dark_cells[0, 0].transform.position.y) / 8;
+        float y_error = dark_cells[0, 0].transform.position.y - (y_range / 2);
         //int i = (int)((pointer.position.x - top) / panel_width * width);
-        int i = (int)((pointer.position.x/ Screen.width - 0.06231743) / ((0.9367924 - 0.06231743)/16.0));
-        int j = (int)((pointer.position.y / Screen.height - 0.02249135) / ((0.8221477 - 0.02249135)/9.0));
-        Debug.Log(Screen.height + " " + pointer.position.x + " " + pointer.position.y / Screen.height);
+        int i = (int)((pointer.position.x - x_error) / x_range);
+        int j = (int)((pointer.position.y - y_error) / y_range);
+        Debug.Log(i + " " + j);
+        //Debug.Log( + " " +);
+        //Debug.Log("----------------------------");
         //int i = (int)(pointer.position.x / Screen.width * width);
         //int j = (int)(pointer.position.y / Screen.height * height);
 
@@ -196,7 +203,8 @@ public class FieldScript : MonoBehaviour
                 UseAbilityBomber();
                 AbilityBomberUsed = true;
                 AbilityButtonImage.interactable = false;
-            } else
+            }
+            else
             {
                 OpenCell(i, j);
                 ClickSound.Play();
@@ -212,7 +220,7 @@ public class FieldScript : MonoBehaviour
         for (int dx = -1; dx <= 1; ++dx)
         {
             for (int dy = -1; dy <= 1; ++dy)
-            {   
+            {
                 int coord_x = i + dx;
                 int coord_y = j + dy;
                 if (coord_x < 0 || coord_y < 0 || coord_x >= width || coord_y >= height) continue;
@@ -292,21 +300,21 @@ public class FieldScript : MonoBehaviour
             }
 
         }
-        
-            if (cells[i, j] == 0)
-            {
-                if (i > 0) OpenCell(i - 1, j);
-                if (j > 0) OpenCell(i, j - 1);
 
-                if (i < width - 1) OpenCell(i + 1, j);
-                if (j < height - 1) OpenCell(i, j + 1);
+        if (cells[i, j] == 0)
+        {
+            if (i > 0) OpenCell(i - 1, j);
+            if (j > 0) OpenCell(i, j - 1);
 
-                if ((i > 0) && (j > 0)) OpenCell(i - 1, j - 1);
-                if ((i > 0) && (j < height - 1)) OpenCell(i - 1, j + 1);
+            if (i < width - 1) OpenCell(i + 1, j);
+            if (j < height - 1) OpenCell(i, j + 1);
 
-                if ((i < width - 1) && (j > 0)) OpenCell(i + 1, j - 1);
-                if ((i < width - 1) && (j < height - 1)) OpenCell(i + 1, j + 1);
-            }
+            if ((i > 0) && (j > 0)) OpenCell(i - 1, j - 1);
+            if ((i > 0) && (j < height - 1)) OpenCell(i - 1, j + 1);
+
+            if ((i < width - 1) && (j > 0)) OpenCell(i + 1, j - 1);
+            if ((i < width - 1) && (j < height - 1)) OpenCell(i + 1, j + 1);
+        }
 
         is_first_move = false;
     }
