@@ -338,7 +338,7 @@ public class FieldScript : MonoBehaviour
             prize = bomb_count;
             end_of_the_game.SetActive(true);
 
-            end_of_the_game_text.text = "Congratulations!\nYour prize from the game is\n";
+            end_of_the_game_text.text = "Поздравляем!\nВаш приз за игру:\n";
             get_coins.text = prize.ToString();
 
             controller.AddCoins(prize);

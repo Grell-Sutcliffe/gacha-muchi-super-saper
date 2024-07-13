@@ -148,10 +148,10 @@ public class SaperController : MonoBehaviour
         count_of_shard_shop.text = "0";
         cost_of_wish_shop.text = cost_of_wish.ToString();
 
-        Character Ivan = new Character("Ivan", "нет", true, true, Ivan_sprite, cross_Ivan);
-        Character Lusi = new Character("Lusi", "в разработке", false, false, Lusi_sprite, cross_Lusi);
-        Character Geremi = new Character("Geremi", "в разработке", false, false, Geremi_sprite, cross_Geremi);
-        Character Makito = new Character("Makito", "в разработке", false, false, Makito_sprite, cross_Makito);
+        Character Ivan = new Character("Иван", "нет", true, true, Ivan_sprite, cross_Ivan);
+        Character Lusi = new Character("Люси", "в разработке", false, false, Lusi_sprite, cross_Lusi);
+        Character Geremi = new Character("Джереми", "в разработке", false, false, Geremi_sprite, cross_Geremi);
+        Character Makito = new Character("Макито", "в разработке", false, false, Makito_sprite, cross_Makito);
         Character Stepan = new Character("Пьяница", "дополнительно ходит на 1 клетку в радиусе 1", false, false, Stepan_sprite, cross_Stepan);
 
         characters = new Dictionary<int, Character>();
